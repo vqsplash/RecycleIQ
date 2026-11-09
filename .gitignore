@@ -1,0 +1,37 @@
+# Environment secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Node / Vite
+node_modules/
+frontend/dist/
+frontend/.vite/
+npm-debug.log*
+
+# Python / Django
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+venv/
+.venv/
+ENV/
+backend/db.sqlite3
+backend/staticfiles/
+backend/media/
+.pytest_cache/
+.coverage
+htmlcov/
+*.tsbuildinfo
+
+# ML datasets and generated model weights
+backend/ml/datasets/
+backend/ml/model/
+
+# Editors and OS files
+.idea/
+.DS_Store
+Thumbs.db
