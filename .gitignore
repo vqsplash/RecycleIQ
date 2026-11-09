@@ -19,7 +19,7 @@ __pycache__/
 venv/
 .venv/
 ENV/
-backend/db.sqlite3
+backend/*.sqlite3
 backend/staticfiles/
 backend/media/
 .pytest_cache/

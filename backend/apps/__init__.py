@@ -1,0 +1,1 @@
+"""RecycleIQ domain applications."""

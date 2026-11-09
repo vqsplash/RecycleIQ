@@ -1,19 +1,49 @@
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { AuthProvider, useAuth } from './auth/AuthContext';
+import { AppShell } from './components/AppShell';
+import { LoadingState } from './components/Feedback';
+import { AdminPage } from './pages/AdminPage';
+import { ClassifyPage } from './pages/ClassifyPage';
+import { GuidancePage } from './pages/GuidancePage';
+import { HomePage } from './pages/HomePage';
+import { LoginPage } from './pages/LoginPage';
+import { MapPage } from './pages/MapPage';
+import { NotFoundPage } from './pages/NotFoundPage';
+import { ReportPage } from './pages/ReportPage';
+
+function AdminRoute() {
+  const { user, loading } = useAuth();
+  if (loading) return <LoadingState label="Checking your account…" />;
+  if (!user) return <Navigate to="/login" replace state={{ from: '/admin' }} />;
+  if (!user.is_staff) return <Navigate to="/" replace />;
+  return <AdminPage />;
+}
+
+function AppRoutes() {
+  return (
+    <Routes>
+      <Route element={<AppShell />}>
+        <Route index element={<HomePage />} />
+        <Route path="classify" element={<ClassifyPage />} />
+        <Route path="guidance" element={<GuidancePage />} />
+        <Route path="guidance/:slug" element={<GuidancePage />} />
+        <Route path="reports/new" element={<ReportPage />} />
+        <Route path="map" element={<MapPage />} />
+        <Route path="admin" element={<AdminRoute />} />
+        <Route path="login" element={<LoginPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Route>
+    </Routes>
+  );
+}
+
 function App() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-stone-50 px-6 text-slate-900">
-      <section className="w-full max-w-xl rounded-3xl border border-stone-200 bg-white p-8 shadow-sm sm:p-12">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-700">
-          RecycleIQ
-        </p>
-        <h1 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
-          Development workspace ready.
-        </h1>
-        <p className="mt-4 leading-7 text-slate-600">
-          The frontend scaffold is running. RecycleIQ features will be added in
-          their planned phases.
-        </p>
-      </section>
-    </main>
+    <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      <AuthProvider>
+        <AppRoutes />
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
 
